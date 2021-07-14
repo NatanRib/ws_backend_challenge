@@ -34,7 +34,7 @@ public class SalesOrder {
 	private Consumer consumer;
 	
 	@OneToMany(mappedBy = "salesOrder")
-	private Set<Product> products = new HashSet<Product>();
+	private Set<OrderItem> items = new HashSet<>();
 	
 	public SalesOrder() {}
 
@@ -84,7 +84,32 @@ public class SalesOrder {
 		this.consumer = consumer;
 	}
 
-	public Set<Product> getProducts() {
-		return products;
+	public Set<OrderItem> getItems() {
+		return items;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((Id == null) ? 0 : Id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SalesOrder other = (SalesOrder) obj;
+		if (Id == null) {
+			if (other.Id != null)
+				return false;
+		} else if (!Id.equals(other.Id))
+			return false;
+		return true;
 	}
 }
