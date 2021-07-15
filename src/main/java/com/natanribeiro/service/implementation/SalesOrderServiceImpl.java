@@ -2,14 +2,19 @@ package com.natanribeiro.service.implementation;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.natanribeiro.data.dao.SalesOrderDAO;
 import com.natanribeiro.data.entity.SalesOrder;
 import com.natanribeiro.service.service.SalesOrderService;
 
 @Service
 public class SalesOrderServiceImpl implements SalesOrderService{
 
+	@Autowired
+	private SalesOrderDAO dao;
+	
 	@Override
 	public List<SalesOrder> findAll() {
 		// TODO Auto-generated method stub
@@ -35,8 +40,7 @@ public class SalesOrderServiceImpl implements SalesOrderService{
 	}
 
 	@Override
-	public SalesOrder save() {
-		// TODO Auto-generated method stub
-		return null;
+	public SalesOrder save(SalesOrder order) {
+		return dao.save(order);
 	}
 }

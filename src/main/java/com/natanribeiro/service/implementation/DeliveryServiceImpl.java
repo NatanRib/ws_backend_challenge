@@ -17,8 +17,7 @@ public class DeliveryServiceImpl implements DeliveryService{
 	}
 
 	@Override
-	public Delivery findById() {
-		// TODO Auto-generated method stub
+	public Delivery findById(Long id) {
 		return null;
 	}
 
@@ -35,7 +34,7 @@ public class DeliveryServiceImpl implements DeliveryService{
 	}
 
 	@Override
-	public Delivery save() {
+	public Delivery save(Delivery d) {
 		// TODO Auto-generated method stub
 		return null;
 	}

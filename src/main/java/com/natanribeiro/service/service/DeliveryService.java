@@ -8,11 +8,12 @@ public interface DeliveryService {
 	
 	public List<Delivery> findAll();
 	
-	public Delivery findById();
+	public Delivery findById(Long id);
 	
 	public void delete();
 	
 	public Delivery updateById();
 	
-	public Delivery save();
+	public Delivery save(Delivery d);
+
 }

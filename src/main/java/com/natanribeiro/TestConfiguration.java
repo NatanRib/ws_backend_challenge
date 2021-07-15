@@ -29,11 +29,12 @@ public class TestConfiguration implements CommandLineRunner{
 		Product p3 = new Product(null, "Teste", "teste", "928187814", 24.67);
 		
 		Manufacturer m1 = new Manufacturer(null, "Test man");
-		manufacturerDao.save(m1);
+		Manufacturer m2 = new Manufacturer(null, "Test man2");
+		manufacturerDao.saveAll(Arrays.asList(m1,m2));
 		
 		p1.setManufacturer(m1);
 		p2.setManufacturer(m1);
-		p3.setManufacturer(m1);
+		p3.setManufacturer(m2);
 		
 		productDao.saveAll(Arrays.asList(p1,p2,p3));
 	}

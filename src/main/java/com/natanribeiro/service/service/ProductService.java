@@ -1,19 +1,19 @@
 package com.natanribeiro.service.service;
 
 import java.util.List;
+import java.util.Optional;
 
-import com.natanribeiro.controller.dto.product.GetProductDTO;
 import com.natanribeiro.data.entity.Product;
 
 public interface ProductService {
 	
-	public List<GetProductDTO> findAll();
+	public List<Product> findAll();
 	
-	public Product findById();
+	public Optional<Product> findById(Long id);
 	
-	public void delete();
+	public void delete(Long id);
 	
-	public Product updateById();
+	public Product updateById(Product p, Long id);
 	
-	public Product save();
+	public Product save(Product p);
 }

@@ -14,5 +14,5 @@ public interface SalesOrderService {
 	
 	public SalesOrder updateById();
 	
-	public SalesOrder save();
+	public SalesOrder save(SalesOrder order);
 }

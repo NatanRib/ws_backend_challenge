@@ -1,5 +1,5 @@
 package com.natanribeiro.data.entity.enumerated;
 
-public enum OrderStatus {
+public enum SalesOrderStatus {
 	PENDING_CONFIRMATION;
 }

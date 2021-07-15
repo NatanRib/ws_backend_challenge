@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.natanribeiro.data.entity.enumerated.OrderStatus;
+import com.natanribeiro.data.entity.enumerated.SalesOrderStatus;
 
 @Entity
 public class SalesOrder {
@@ -19,7 +19,7 @@ public class SalesOrder {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
-	private OrderStatus status;
+	private SalesOrderStatus status;
 	
 	@ManyToOne
 	@JoinColumn(name = "deliveryId")
@@ -38,7 +38,7 @@ public class SalesOrder {
 	
 	public SalesOrder() {}
 
-	public SalesOrder(Long id, OrderStatus status) {
+	public SalesOrder(Long id, SalesOrderStatus status) {
 		super();
 		Id = id;
 		this.status = status;
@@ -52,11 +52,11 @@ public class SalesOrder {
 		Id = id;
 	}
 
-	public OrderStatus getStatus() {
+	public SalesOrderStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(OrderStatus status) {
+	public void setStatus(SalesOrderStatus status) {
 		this.status = status;
 	}
 
