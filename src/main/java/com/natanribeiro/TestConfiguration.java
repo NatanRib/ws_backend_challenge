@@ -7,10 +7,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import com.natanribeiro.data.dao.ManufacturerDAO;
-import com.natanribeiro.data.dao.ProductDAO;
-import com.natanribeiro.data.entity.Manufacturer;
-import com.natanribeiro.data.entity.Product;
+import com.natanribeiro.domain.entities.product.Manufacturer;
+import com.natanribeiro.domain.entities.product.Product;
+import com.natanribeiro.framework.repository.dao.ManufacturerDAO;
+import com.natanribeiro.framework.repository.dao.ProductDAO;
 
 @Profile("dev")
 @Configuration
@@ -24,17 +24,13 @@ public class TestConfiguration implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-		Product p1 = new Product(null, "Teste", "teste", "928187814", 24.67);
-		Product p2 = new Product(null, "Teste", "teste", "928187814", 24.67);
-		Product p3 = new Product(null, "Teste", "teste", "928187814", 24.67);
-		
 		Manufacturer m1 = new Manufacturer(null, "Test man");
 		Manufacturer m2 = new Manufacturer(null, "Test man2");
 		manufacturerDao.saveAll(Arrays.asList(m1,m2));
 		
-		p1.setManufacturer(m1);
-		p2.setManufacturer(m1);
-		p3.setManufacturer(m2);
+		Product p1 = new Product(null, "Teste", "teste", "9281878143456", 24.67, m1);
+		Product p2 = new Product(null, "Teste", "teste", "9281878148765", 24.67, m2);
+		Product p3 = new Product(null, "Teste", "teste", "9281878141423", 24.67, m2);
 		
 		productDao.saveAll(Arrays.asList(p1,p2,p3));
 	}
