@@ -11,8 +11,6 @@ public interface SalesOrderRepository {
 	
 	public Optional<SalesOrder> findById(Long id);
 	
-	public void delete();
-	
 	public SalesOrder update(SalesOrder order);
 	
 	public SalesOrder save(SalesOrder order);

@@ -1,22 +1,15 @@
 package com.natanribeiro.appservice.service;
 
-import java.util.List;
-
-import com.natanribeiro.appservice.dto.sales_order.CreateSalesOrderDTO;
-import com.natanribeiro.appservice.dto.sales_order.GetSalesOrderDTO;
 import com.natanribeiro.appservice.dto.sales_order.GetSalesOrderDetailsDTO;
+import com.natanribeiro.domain.entities.sales_order.SalesOrder;
 
 public interface SalesOrderService {
 	
-	public List<GetSalesOrderDTO> findAll();
+	public GetSalesOrderDetailsDTO findById(Long id);
 	
-	public GetSalesOrderDetailsDTO findById();
+	public GetSalesOrderDetailsDTO cancelOrder(Long id);
 	
-	public void delete();
+	public GetSalesOrderDetailsDTO confirmOrder(Long id); 
 	
-	public GetSalesOrderDetailsDTO cancelOrder();
-	
-	public GetSalesOrderDetailsDTO confirmOrder(); 
-	
-	public Long save(CreateSalesOrderDTO order);
+	public Long save(SalesOrder order);
 }

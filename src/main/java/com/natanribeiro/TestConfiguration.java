@@ -24,15 +24,21 @@ public class TestConfiguration implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-		Manufacturer m1 = new Manufacturer(null, "Test man");
-		Manufacturer m2 = new Manufacturer(null, "Test man2");
-		manufacturerDao.saveAll(Arrays.asList(m1,m2));
+		Manufacturer m1 = new Manufacturer(null, "Apple");
+		Manufacturer m2 = new Manufacturer(null, "Sansung");
+		Manufacturer m3 = new Manufacturer(null, "Acer");
+
+		manufacturerDao.saveAll(Arrays.asList(m1,m2,m3));
 		
-		Product p1 = new Product(null, "Teste", "teste", "9281878143456", 24.67, m1);
-		Product p2 = new Product(null, "Teste", "teste", "9281878148765", 24.67, m2);
-		Product p3 = new Product(null, "Teste", "teste", "9281878141423", 24.67, m2);
+		Product p1 = new Product(null, "Iphone 11", "Celular magnifico da apple", "9281878143456", 3589.67, m1);
+		Product p2 = new Product(null, "Galaxy m20", "Celular magnifico da sansung", "9281878148765", 1256.67, m2);
+		Product p3 = new Product(null, "Galasxy s20", "Celular magnifico da sansung", "9281878141423", 2412.67, m2);
+		Product p4 = new Product(null, "Iphone X", "Celular magnifico da apple", "9281878143456", 4456.67, m1);
+		Product p5 = new Product(null, "Mac book pro", "desktop magnifico da apple", "9281878148765", 24986.67, m1);
+		Product p6 = new Product(null, "Notebook Acer", "notebook magnifico da acer", "9281878141423", 2456.67, m3);
+		Product p7 = new Product(null, "TV Sansung 8k", "TV magnifica da sansung", "9281878143456", 2445.67, m2);
 		
-		productDao.saveAll(Arrays.asList(p1,p2,p3));
+		productDao.saveAll(Arrays.asList(p1,p2,p3,p4,p5,p6,p7));
 	}
 
 }

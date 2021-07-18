@@ -1,9 +1,12 @@
 package com.natanribeiro.appservice.dto.product;
 
+import java.io.Serializable;
+
 import com.natanribeiro.domain.entities.product.Product;
 
-public class GetProductDTO {
-
+public class GetProductDTO implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	private long id;
 	private String name;
 	

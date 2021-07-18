@@ -19,6 +19,7 @@ public class Consumer {
 	@Column(nullable = false)
 	private String name;
 	private String phone;
+	@Column(nullable = false)
 	private String email;
 
 	@OneToMany(mappedBy = "consumer")

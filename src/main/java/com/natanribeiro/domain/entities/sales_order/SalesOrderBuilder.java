@@ -1,5 +1,7 @@
 package com.natanribeiro.domain.entities.sales_order;
 
+import com.natanribeiro.domain.entities.sales_order.enumerated.SalesOrderStatus;
+
 public class SalesOrderBuilder {
 
 	private SalesOrder order;

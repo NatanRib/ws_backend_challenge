@@ -6,38 +6,38 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.natanribeiro.domain.entities.sales_order.Delivery;
-import com.natanribeiro.domain.repositories.DeliveryRepository;
-import com.natanribeiro.framework.repository.dao.DeliveryDAO;
+import com.natanribeiro.domain.entities.product.Manufacturer;
+import com.natanribeiro.domain.repositories.ManufacturerRepository;
+import com.natanribeiro.framework.repository.dao.ManufacturerDAO;
 
 @Repository
-public class DeliveryRepositoryImpl implements DeliveryRepository{
+public class DeliveryRepositoryImpl implements ManufacturerRepository{
 
 	@Autowired
-	DeliveryDAO dao;
+	ManufacturerDAO dao;
 
 	@Override
-	public Delivery save(Delivery delivery) {
-		return dao.save(delivery);
+	public Manufacturer save(Manufacturer manufacturer) {
+		return dao.save(manufacturer);
 	}
 
 	@Override
-	public List<Delivery> findAll() {
+	public List<Manufacturer> findAll() {
 		return dao.findAll();
 	}
 
 	@Override
-	public Optional<Delivery> findById(Long id) {
+	public Optional<Manufacturer> findById(Long id) {
 		return dao.findById(id);
 	}
 
 	@Override
-	public void delete(Delivery delivery) {
-		dao.delete(delivery);
+	public void delete(Manufacturer manufacturer) {
+		dao.delete(manufacturer);
 	}
 
 	@Override
-	public Delivery update(Delivery delivery) {
-		return dao.save(delivery);
+	public Manufacturer update(Manufacturer manufacturer) {
+		return dao.save(null);
 	}
 }

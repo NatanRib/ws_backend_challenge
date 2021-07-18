@@ -31,7 +31,7 @@ public class OrderItem {
 	
 	public OrderItem() {}
 	
-	public OrderItem(Long id, Double units, Product product) {
+	public OrderItem(Long id, Double units, Product product, Double amount) {
 		if (units == null)
 			throw new IllegalArgumentException("OrderItem.units cannot be null.");
 		if (product == null)
@@ -40,7 +40,7 @@ public class OrderItem {
 		this.id = id;
 		this.units = units;
 		this.product = product;
-		this.amount = product.getUnitPrice() * units;
+		this.amount = amount;
 	}
 
 	public Double getUnits() {

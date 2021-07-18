@@ -11,7 +11,7 @@ import com.natanribeiro.domain.entities.product.ProductBuilder;
 import com.natanribeiro.domain.entities.sales_order.OrderItem;
 import com.natanribeiro.domain.entities.sales_order.SalesOrder;
 import com.natanribeiro.domain.entities.sales_order.SalesOrderBuilder;
-import com.natanribeiro.domain.entities.sales_order.SalesOrderStatus;
+import com.natanribeiro.domain.entities.sales_order.enumerated.SalesOrderStatus;
 
 class SalesOrderTest {
 
@@ -59,7 +59,7 @@ class SalesOrderTest {
 		SalesOrder s = new SalesOrderBuilder()
 				.withStatusAndConsumer(SalesOrderStatus.PENDING_CONFIRMATION,
 						"natan", "natan@email.com")
-				.addItem(new OrderItem(null, 3.6, p))
+				.addItem(new OrderItem(null, 3.6, p, 34.9))
 				.build();
 		assertTrue(!s.getItems().isEmpty());
 	}
@@ -74,7 +74,7 @@ class SalesOrderTest {
 				()-> new SalesOrderBuilder()
 				.withStatusAndConsumer(SalesOrderStatus.PENDING_CONFIRMATION,
 						"natan", "natan@email.com")
-				.addItem(new OrderItem(null, null, p))
+				.addItem(new OrderItem(null, null, p, 67.9))
 				.build());
 	}
 	
@@ -84,7 +84,7 @@ class SalesOrderTest {
 				()-> new SalesOrderBuilder()
 				.withStatusAndConsumer(SalesOrderStatus.PENDING_CONFIRMATION,
 						"natan", "natan@email.com")
-				.addItem(new OrderItem(null, 3.6, null))
+				.addItem(new OrderItem(null, 3.6, null, 67.9))
 				.build());
 	}
 }

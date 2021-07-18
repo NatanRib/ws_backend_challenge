@@ -1,7 +1,7 @@
 package com.natanribeiro.domain.entities.sales_order;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.natanribeiro.domain.entities.sales_order.enumerated.SalesOrderStatus;
 
 @Entity
 public class SalesOrder {
@@ -32,7 +34,7 @@ public class SalesOrder {
 	private Consumer consumer;
 	
 	@OneToMany(mappedBy = "salesOrder")
-	private Set<OrderItem> items = new HashSet<>();
+	private List<OrderItem> items = new ArrayList<>();
 	
 	public SalesOrder() {}
 
@@ -55,7 +57,7 @@ public class SalesOrder {
 		return status;
 	}
 
-	public Set<OrderItem> getItems() {
+	public List<OrderItem> getItems() {
 		return items;
 	}
 
@@ -97,10 +99,6 @@ public class SalesOrder {
 
 	public void setConsumer(Consumer consumer) {
 		this.consumer = consumer;
-	}
-
-	public void setItems(Set<OrderItem> items) {
-		this.items = items;
 	}
 
 	@Override

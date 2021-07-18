@@ -14,13 +14,13 @@ class OrderItemTest {
 	@Test
 	void shouldDontCreateOrderItemWithInvalidParameters() {
 		assertThrows(IllegalArgumentException.class,
-				()-> new OrderItem(null, null, null));
+				()-> new OrderItem(null, null, null, null));
 	}
 	
 	@Test
 	void shouldDontCreateOrderItemWithInvalidProduct() {
 		assertThrows(IllegalArgumentException.class,
-				()-> new OrderItem(null, 2.5, null));
+				()-> new OrderItem(null, 2.5, null, null));
 	}
 	
 	@Test
@@ -30,7 +30,7 @@ class OrderItemTest {
 						new ProductBuilder()
 						.withNameDescriptioBarcodeUnitpriceManufacturer(
 								"tetse", "DescTest", "1234325674567", 
-								34.45, new Manufacturer(null, "manu")).build()));
+								34.45, new Manufacturer(null, "manu")).build(), null));
 	}
 	
 	@Test
@@ -39,7 +39,7 @@ class OrderItemTest {
 				new ProductBuilder()
 				.withNameDescriptioBarcodeUnitpriceManufacturer(
 						"tetse", "DescTest", "1234325674567", 
-						34.45, new Manufacturer(null, "manu")).build());
+						34.45, new Manufacturer(null, "manu")).build(), 45.8);
 		assertTrue(i != null);
 	}
 }

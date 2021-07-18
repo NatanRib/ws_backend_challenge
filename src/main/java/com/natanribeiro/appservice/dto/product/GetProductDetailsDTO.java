@@ -1,21 +1,23 @@
 package com.natanribeiro.appservice.dto.product;
 
-import com.natanribeiro.appservice.dto.manufacturer.GetManufacturerDTO;
+import java.io.Serializable;
+
 import com.natanribeiro.domain.entities.product.Product;
 
-public class GetProductDetailsDTO {
+public class GetProductDetailsDTO implements Serializable{
+	private static final long serialVersionUID = 1L;
 	
 	private Long id;
 	private String name;
 	private String description;
 	private String barcode;
-	private GetManufacturerDTO manufacturer;
+	private GetProductManufacturerDTO manufacturer;
 	private double unitPrice;
 	
 	public GetProductDetailsDTO() {}
 
 	public GetProductDetailsDTO(Long id, String name, String description, String barcode,
-			GetManufacturerDTO manufacturer, double unitPrice) {
+			GetProductManufacturerDTO manufacturer, double unitPrice) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -57,11 +59,11 @@ public class GetProductDetailsDTO {
 		this.barcode = barcode;
 	}
 
-	public GetManufacturerDTO getManufacturer() {
+	public GetProductManufacturerDTO getManufacturer() {
 		return manufacturer;
 	}
 
-	public void setManufacturer(GetManufacturerDTO manufacturer) {
+	public void setManufacturer(GetProductManufacturerDTO manufacturer) {
 		this.manufacturer = manufacturer;
 	}
 
@@ -75,7 +77,7 @@ public class GetProductDetailsDTO {
 	
 	public static GetProductDetailsDTO fromProduct(Product p) {
 		return new GetProductDetailsDTO(p.getId(), p.getName(), p.getDescription(),
-				p.getBarcode(), GetManufacturerDTO.fromManufacturer(p.getManufacturer()),
+				p.getBarcode(), GetProductManufacturerDTO.fromManufacturer(p.getManufacturer()),
 				p.getUnitPrice());
 	}
 }
