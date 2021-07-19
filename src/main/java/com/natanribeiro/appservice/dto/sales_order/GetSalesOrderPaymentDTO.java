@@ -53,6 +53,8 @@ public class GetSalesOrderPaymentDTO implements Serializable{
 	}
     
 	public static GetSalesOrderPaymentDTO fromPayment(Payment payment) {
+		if (payment == null)
+			return null;
 		return new GetSalesOrderPaymentDTO(payment.getMode(),
 				payment.getAmount(), payment.getInstallments(),
 				payment.getInstallmentValue());

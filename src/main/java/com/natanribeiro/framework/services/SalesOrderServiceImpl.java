@@ -1,10 +1,14 @@
 package com.natanribeiro.framework.services;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.natanribeiro.appservice.dto.sales_order.GetSalesOrderDTO;
 import com.natanribeiro.appservice.dto.sales_order.GetSalesOrderDetailsDTO;
 import com.natanribeiro.appservice.exceptions.RecordNotFoundException;
 import com.natanribeiro.appservice.exceptions.ValueObjectNotFoundException;
@@ -46,6 +50,13 @@ public class SalesOrderServiceImpl implements SalesOrderService{
 	
 	private String orderNotFound = "Sales order with id %d not found.";
 
+	@Override
+	public List<GetSalesOrderDTO> find() {
+		return salesOrderRepository.findAll().stream()
+				.map(o -> GetSalesOrderDTO.fromSalesOrder(o))
+				.collect(Collectors.toList());
+	}
+	
 	@Override
 	public GetSalesOrderDetailsDTO findById(Long id) {
 		return GetSalesOrderDetailsDTO.fromSalesOrder(

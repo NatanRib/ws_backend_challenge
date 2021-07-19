@@ -10,6 +10,7 @@ public class GetSalesOrderDetailsDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
+	
 	private String status;
 
 	private List<GetSalesOrderItemDTO> products;
@@ -80,7 +81,7 @@ public class GetSalesOrderDetailsDTO implements Serializable{
 		order.getItems().forEach(i -> items.add(GetSalesOrderItemDTO.fromOrderItem(i)));
 		
 		return new GetSalesOrderDetailsDTO(
-				  order.getId(), order.getStatus().name(), items,
+				  order.getId(), order.getStatus().toString(), items,
 				  GetSalesOrderConsumerDTO.fromConsumer(order.getConsumer()),
 				  GetSalesOrderPaymentDTO.fromPayment(order.getPayment()),
 				  GetSalesOrderDeliveryDTO.fromDelivery(order.getDelivery()));

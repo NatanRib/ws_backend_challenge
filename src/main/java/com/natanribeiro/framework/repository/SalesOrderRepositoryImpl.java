@@ -18,8 +18,7 @@ public class SalesOrderRepositoryImpl implements SalesOrderRepository{
 	
 	@Override
 	public List<SalesOrder> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.findAll();
 	}
 
 	@Override

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import com.natanribeiro.domain.entities.sales_order.Delivery;
+import com.natanribeiro.domain.entities.sales_order.Payment;
 import com.natanribeiro.domain.entities.sales_order.SalesOrder;
 
 public class CreateSalesOrderForm implements Serializable{
@@ -63,8 +65,14 @@ public class CreateSalesOrderForm implements Serializable{
 		for (CreateSalesOrderProductForm orderItem : products) {
 			s.addItem(orderItem.toOrderItem());
 		}
-		s.setPayment(payment.toPayment());
-		s.setDelivery(delivery.toDelivery());
+		Payment p = null;
+		if (payment != null)
+			p = payment.toPayment();
+		s.setPayment(p);
+		Delivery d = null;
+		if (delivery != null)
+			d = delivery.toDelivery();
+		s.setDelivery(d);
 		return s;
 	}
 }

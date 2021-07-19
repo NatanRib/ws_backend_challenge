@@ -1,9 +1,14 @@
 package com.natanribeiro.appservice.service;
 
+import java.util.List;
+
+import com.natanribeiro.appservice.dto.sales_order.GetSalesOrderDTO;
 import com.natanribeiro.appservice.dto.sales_order.GetSalesOrderDetailsDTO;
 import com.natanribeiro.domain.entities.sales_order.SalesOrder;
 
 public interface SalesOrderService {
+	
+	public List<GetSalesOrderDTO> find();
 	
 	public GetSalesOrderDetailsDTO findById(Long id);
 	

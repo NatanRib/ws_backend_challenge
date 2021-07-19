@@ -1,6 +1,7 @@
 package com.natanribeiro.framework.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.natanribeiro.appservice.dto.sales_order.GetSalesOrderDTO;
 import com.natanribeiro.appservice.dto.sales_order.GetSalesOrderDetailsDTO;
 import com.natanribeiro.framework.form.sales_order.CreateSalesOrderForm;
 import com.natanribeiro.framework.services.SalesOrderServiceImpl;
@@ -39,6 +41,12 @@ public class SalesOrderController {
 	public ResponseEntity<GetSalesOrderDetailsDTO> findById(@PathVariable Long id){
 		GetSalesOrderDetailsDTO order = service.findById(id);
 		return ResponseEntity.ok(order);
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<GetSalesOrderDTO>> find(){
+		List<GetSalesOrderDTO> orders = service.find();
+		return ResponseEntity.ok(orders);
 	}
 	
 	@PatchMapping("/cancel/{id}")

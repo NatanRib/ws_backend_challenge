@@ -74,5 +74,5 @@ public class ProductServiceImpl implements ProductService {
 
 	private Manufacturer findOrSaveManufacturer(Manufacturer m) {
 		return manufacturerRepository.findById(m.getId()).orElse(manufacturerRepository.save(m));
-	}
+	} 
 }

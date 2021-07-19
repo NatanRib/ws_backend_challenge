@@ -33,7 +33,7 @@ public class OrderItem {
 	
 	public OrderItem(Long id, Double units, Product product, Double amount) {
 		if (units == null)
-			throw new IllegalArgumentException("OrderItem.units cannot be null.");
+			throw new IllegalArgumentException("Product.units cannot be null.");
 		if (product == null)
 			throw new IllegalArgumentException("OrderItem.product cannot be null.");
 		

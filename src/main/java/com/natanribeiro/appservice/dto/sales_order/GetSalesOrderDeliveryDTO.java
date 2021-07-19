@@ -23,6 +23,8 @@ public class GetSalesOrderDeliveryDTO implements Serializable{
 	}
 	
 	public static GetSalesOrderDeliveryDTO fromDelivery(Delivery delivery) {
+		if(delivery == null)
+			return null;
 		return new GetSalesOrderDeliveryDTO(delivery.getMode());
 	}
 }
