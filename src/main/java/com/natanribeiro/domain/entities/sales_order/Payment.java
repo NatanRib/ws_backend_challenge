@@ -1,14 +1,12 @@
 package com.natanribeiro.domain.entities.sales_order;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Payment {
@@ -24,16 +22,15 @@ public class Payment {
 	private Integer installments;
 	private Double installmentValue;
 	
-	@OneToMany(mappedBy = "payment")
-	private List<SalesOrder> salesOrder = new ArrayList<>();
+	@OneToOne
+	@JoinColumn(name = "orderId")
+	private SalesOrder salesOrder;
 	
 	public Payment() {}
 	
 	public Payment(Long id, String mode, Double amount, Integer installments){
 		if (mode == null || mode.isBlank())
 			throw new IllegalArgumentException("Payment.mode cannot be blank");
-		if (amount == null)
-			throw new IllegalArgumentException("Payment.amount cannot be null");
 		if (installments == null)
 			throw new IllegalArgumentException("Payment.installments cannot be null");
 		
@@ -68,10 +65,14 @@ public class Payment {
 		this.id = id;
 	}
 
-	public List<SalesOrder> getSalesOrder() {
+	public SalesOrder getSalesOrder() {
 		return salesOrder;
 	}
 
+	public void setSalesOrder(SalesOrder o) {
+		this.salesOrder = o;
+	}
+	
 	public void setMode(String mode) {
 		this.mode = mode;
 	}

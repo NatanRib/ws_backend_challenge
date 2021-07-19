@@ -11,6 +11,7 @@ public class CreateSalesOrderPaymentForm implements Serializable{
 	
 	@NotBlank(message = "payment.mode cannot be blank")
 	private String mode;
+	@NotBlank(message = "payment.installments cannot be blank")
     private Integer installments;
     
     public CreateSalesOrderPaymentForm() {}
@@ -18,11 +19,7 @@ public class CreateSalesOrderPaymentForm implements Serializable{
 	public CreateSalesOrderPaymentForm(String mode, Integer installments) {
 		super();
 		this.mode = mode;
-		if (installments == null) {
-			this.installments = 1;
-		}else {			
-			this.installments = installments;
-		}
+		this.installments = installments;
 	}
 
 	public String getMode() {

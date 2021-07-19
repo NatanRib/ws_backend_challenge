@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +19,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.natanribeiro.appservice.dto.sales_order.GetSalesOrderDTO;
 import com.natanribeiro.appservice.dto.sales_order.GetSalesOrderDetailsDTO;
+import com.natanribeiro.framework.form.sales_order.CreateSalesOrderDeliveryForm;
 import com.natanribeiro.framework.form.sales_order.CreateSalesOrderForm;
+import com.natanribeiro.framework.form.sales_order.CreateSalesOrderPaymentForm;
 import com.natanribeiro.framework.services.SalesOrderServiceImpl;
 
 @RestController
@@ -49,15 +52,23 @@ public class SalesOrderController {
 		return ResponseEntity.ok(orders);
 	}
 	
-	@PatchMapping("/cancel/{id}")
+	@PatchMapping("/{id}/cancel")
 	public ResponseEntity<GetSalesOrderDetailsDTO> cancelOrder(@PathVariable Long id){
 		GetSalesOrderDetailsDTO order = service.cancelOrder(id);
 		return ResponseEntity.ok(order);
 	}
 	
-	@PatchMapping("/confirm/{id}")
-	public ResponseEntity<GetSalesOrderDetailsDTO> confirmOrder(@PathVariable Long id){
-		GetSalesOrderDetailsDTO order = service.confirmOrder(id);
+	@PutMapping("/{id}/confirm")
+	public ResponseEntity<GetSalesOrderDetailsDTO> confirmOrder(
+			@PathVariable Long id, @RequestBody CreateSalesOrderPaymentForm payment){
+		GetSalesOrderDetailsDTO order = service.confirmOrder(id, payment.toPayment());
+		return ResponseEntity.ok(order);
+	}
+	
+	@PutMapping("/{id}/delivery")
+	public ResponseEntity<GetSalesOrderDetailsDTO> confirmOrder(
+			@PathVariable Long id, @RequestBody CreateSalesOrderDeliveryForm delivery){
+		GetSalesOrderDetailsDTO order = service.deliveryOrder(id, delivery.toDelivery());
 		return ResponseEntity.ok(order);
 	}
 }

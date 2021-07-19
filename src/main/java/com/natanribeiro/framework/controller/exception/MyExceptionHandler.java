@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.natanribeiro.appservice.exceptions.RecordNotFoundException;
+import com.natanribeiro.appservice.exceptions.SalesOrderAlreadyPaidException;
 import com.natanribeiro.appservice.exceptions.ValueObjectNotFoundException;
 
 @RestControllerAdvice
@@ -42,6 +43,15 @@ public class MyExceptionHandler {
 		String path = request.getRequestURI();
 		DefaultExceptionResponse response = new DefaultExceptionResponse(
 				exception.getAllErrors(), path);
+		return ResponseEntity.badRequest().body(response);
+	}
+	
+	@ExceptionHandler(SalesOrderAlreadyPaidException.class)
+	public ResponseEntity<DefaultExceptionResponse> salesOrderAlreadyPaid(
+			SalesOrderAlreadyPaidException exception, HttpServletRequest request){
+		String path = request.getRequestURI();
+		DefaultExceptionResponse response = new DefaultExceptionResponse(
+				exception.getMessage(), path);
 		return ResponseEntity.badRequest().body(response);
 	}
 }

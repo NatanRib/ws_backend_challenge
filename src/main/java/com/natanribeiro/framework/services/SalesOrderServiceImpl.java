@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.natanribeiro.appservice.dto.sales_order.GetSalesOrderDTO;
 import com.natanribeiro.appservice.dto.sales_order.GetSalesOrderDetailsDTO;
 import com.natanribeiro.appservice.exceptions.RecordNotFoundException;
+import com.natanribeiro.appservice.exceptions.SalesOrderAlreadyDeliveredException;
+import com.natanribeiro.appservice.exceptions.SalesOrderAlreadyPaidException;
 import com.natanribeiro.appservice.exceptions.ValueObjectNotFoundException;
 import com.natanribeiro.appservice.service.SalesOrderService;
 import com.natanribeiro.domain.entities.product.Product;
@@ -28,123 +30,150 @@ import com.natanribeiro.domain.repositories.ProductRepository;
 import com.natanribeiro.domain.repositories.SalesOrderRepository;
 
 @Service
-public class SalesOrderServiceImpl implements SalesOrderService{
+public class SalesOrderServiceImpl implements SalesOrderService {
 
 	@Autowired
 	private SalesOrderRepository salesOrderRepository;
-	
+
 	@Autowired
 	private PaymentRepository paymentRepository;
-	
+
 	@Autowired
 	private DeliveryRepository deliveryRepository;
 
 	@Autowired
 	private ProductRepository productRepository;
-	
+
 	@Autowired
 	private OrderItemRepository orderItemRepository;
-	
+
 	@Autowired
 	private ConsumerRepository consumerRepository;
-	
+
 	private String orderNotFound = "Sales order with id %d not found.";
 
 	@Override
 	public List<GetSalesOrderDTO> find() {
-		return salesOrderRepository.findAll().stream()
-				.map(o -> GetSalesOrderDTO.fromSalesOrder(o))
+		return salesOrderRepository.findAll().stream().map(o -> GetSalesOrderDTO.fromSalesOrder(o))
 				.collect(Collectors.toList());
 	}
-	
+
 	@Override
 	public GetSalesOrderDetailsDTO findById(Long id) {
-		return GetSalesOrderDetailsDTO.fromSalesOrder(
-				salesOrderRepository.findById(id).orElseThrow(
-				()-> new RecordNotFoundException(String.format(
-						orderNotFound, id))));
+		return GetSalesOrderDetailsDTO.fromSalesOrder(salesOrderRepository.findById(id)
+				.orElseThrow(() -> new RecordNotFoundException(String.format(orderNotFound, id))));
 	}
 
 	@Override
 	@Transactional
 	public Long save(SalesOrder order) {
-		order.getItems().forEach(i ->saveItem(i));
+		order.getItems().forEach(i -> saveItem(i));
 
-		Consumer c = saveConsumer(order.getConsumer());	
-		Payment p  = savePayment(order);
+		Consumer c = saveConsumer(order.getConsumer());
+		Payment p = null;
+		if (order.getPayment() != null) {
+			p = savePayment(order);
+			order.setStatus(SalesOrderStatus.CONFIRMED);
+		}
 		Delivery d = null;
-		if(order.getDelivery() != null)
-			d = deliveryRepository.save(order.getDelivery());
+		if (order.getDelivery() != null) {
+			d = saveDelivery(order);
+		}
+
 		order.setConsumer(c);
 		order.setPayment(p);
 		order.setDelivery(d);
 		order.setStatus(SalesOrderStatus.PENDING_CONFIRMATION);
-		
-		order =  salesOrderRepository.save(order);
-		
+
+		order = salesOrderRepository.save(order);
+
 		for (OrderItem i : order.getItems()) {
 			i.setSalesOrder(order);
-			saveItem(i);			
+			saveItem(i);
 		}
-		
+
 		return order.getId();
 	}
 
-	private void saveItem(OrderItem item){
+	private void saveItem(OrderItem item) {
 		Product product = productRepository.findById(item.getProduct().getId())
-				.orElseThrow(()-> new ValueObjectNotFoundException(
-						String.format("Product with id %d not found.",
-								item.getProduct().getId())));
-		
+				.orElseThrow(() -> new ValueObjectNotFoundException(
+						String.format("Product with id %d not found.", item.getProduct().getId())));
+
 		item.setProduct(product);
 		item.setAmount(product.getUnitPrice() * item.getUnits());
 		orderItemRepository.save(item);
 	}
+
+	private Delivery saveDelivery(SalesOrder order) {
+		Delivery d = order.getDelivery();
+		d.setSalesOrder(order);
+		return deliveryRepository.save(d);
+	}
 	
 	private Consumer saveConsumer(Consumer c) {
 		Long customerId = c.getId();
-		if( customerId == null) {			
+		if (customerId == null) {
 			c = consumerRepository.save(c);
-		}else {
-			c = consumerRepository.findById(customerId).orElseThrow(
-							()-> new ValueObjectNotFoundException(
-									String.format("Customer with id "
-											+ "%d not found.", 
-											customerId)));
+		} else {
+			c = consumerRepository.findById(customerId).orElseThrow(() -> new ValueObjectNotFoundException(
+					String.format("Customer with id " + "%d not found.", customerId)));
 		}
 		return c;
 	}
-	
+
 	private Payment savePayment(SalesOrder order) {
 		Payment p = order.getPayment();
-		if(p != null) {
-			Double amount = 0.0;
-			for (OrderItem i : order.getItems()) {
-				amount += i.getAmount();
-			}
-			p.setAmount(amount);
+		p.setSalesOrder(order);
+		p.setAmount(calcPaymentAmount(order));
+		if(p.getInstallments() != null) {			
+			p.setInstallmentValue(p.getAmount() / p.getInstallments());
 			return paymentRepository.save(p);
 		}
-		return null;
+		throw new IllegalArgumentException("payment.installments cannot be null");
 	}
 
 	@Override
 	public GetSalesOrderDetailsDTO cancelOrder(Long id) {
 		SalesOrder order = salesOrderRepository.findById(id)
-				.orElseThrow(()-> new RecordNotFoundException(
-						String.format(orderNotFound, id)));
+				.orElseThrow(() -> new RecordNotFoundException(String.format(orderNotFound, id)));
 		order.setStatus(SalesOrderStatus.CANCELED);
-		return GetSalesOrderDetailsDTO.fromSalesOrder(
-				salesOrderRepository.save(order));
+		return GetSalesOrderDetailsDTO.fromSalesOrder(salesOrderRepository.save(order));
 	}
 
 	@Override
-	public GetSalesOrderDetailsDTO confirmOrder(Long id) {
+	public GetSalesOrderDetailsDTO confirmOrder(Long id, Payment payment) {
 		SalesOrder order = salesOrderRepository.findById(id)
-				.orElseThrow(()-> new RecordNotFoundException(
-						String.format(orderNotFound, id)));
-		order.setStatus(SalesOrderStatus.CONFIRMED);
-		return GetSalesOrderDetailsDTO.fromSalesOrder(
-				salesOrderRepository.save(order));
+				.orElseThrow(() -> new RecordNotFoundException(String.format(orderNotFound, id)));
+		if (order.getPayment() == null) {
+			order.setPayment(payment);
+			Payment p = savePayment(order);
+			order.setStatus(SalesOrderStatus.CONFIRMED);
+			order.setPayment(p);
+			return GetSalesOrderDetailsDTO.fromSalesOrder(salesOrderRepository.save(order));
+		}
+		throw new SalesOrderAlreadyPaidException();
+	}
+
+	private Double calcPaymentAmount(SalesOrder o) {
+		Double amount = 0.0;
+		for (OrderItem i : o.getItems()) {
+			amount += i.getAmount();
+		}
+		return amount;
+	}
+
+	@Override
+	public GetSalesOrderDetailsDTO deliveryOrder(Long id, Delivery delivery) {
+		SalesOrder order = salesOrderRepository.findById(id)
+				.orElseThrow(() -> new RecordNotFoundException(String.format(orderNotFound, id)));
+		if (order.getDelivery() == null) {
+			order.setDelivery(delivery);
+			Delivery d = saveDelivery(order);
+			order.setStatus(SalesOrderStatus.CONFIRMED);
+			order.setDelivery(d);
+			return GetSalesOrderDetailsDTO.fromSalesOrder(salesOrderRepository.save(order));
+		}
+		throw new SalesOrderAlreadyDeliveredException();
 	}
 }

@@ -7,7 +7,7 @@ import com.natanribeiro.domain.entities.sales_order.Payment;
 
 public interface PaymentRepository {
 	
-public Payment save (Payment payment);
+	public Payment save (Payment payment);
 	
 	public List<Payment> findAll();
 	

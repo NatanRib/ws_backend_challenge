@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.natanribeiro.domain.entities.sales_order.enumerated.SalesOrderStatus;
 
@@ -25,12 +26,10 @@ public class SalesOrder {
 	@Enumerated(EnumType.STRING)
 	private SalesOrderStatus status;
 	
-	@ManyToOne
-	@JoinColumn(name = "deliveryId")
+	@OneToOne(mappedBy = "salesOrder")
 	private Delivery delivery;
 	
-	@ManyToOne
-	@JoinColumn(name = "paymentId")
+	@OneToOne(mappedBy = "salesOrder")
 	private Payment payment;
 	
 	@ManyToOne

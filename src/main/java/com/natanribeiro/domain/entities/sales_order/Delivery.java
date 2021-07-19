@@ -1,14 +1,12 @@
 package com.natanribeiro.domain.entities.sales_order;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Delivery {
@@ -19,8 +17,9 @@ public class Delivery {
 	@Column(nullable = false)
 	private String mode;
 	
-	@OneToMany(mappedBy = "delivery")
-	private List<SalesOrder> salesOrder = new ArrayList<>();
+	@OneToOne
+	@JoinColumn(name = "orderId")
+	private SalesOrder salesOrder;
 	
 	public Delivery() {}
 	
@@ -43,10 +42,14 @@ public class Delivery {
 		this.id = id;
 	}
 
-	public List<SalesOrder> getSalesOrder() {
+	public SalesOrder getSalesOrder() {
 		return salesOrder;
 	}
-
+	
+	public void setSalesOrder(SalesOrder o) {
+		this.salesOrder = o;
+	}
+	
 	public void setMode(String mode) {
 		this.mode = mode;
 	}
