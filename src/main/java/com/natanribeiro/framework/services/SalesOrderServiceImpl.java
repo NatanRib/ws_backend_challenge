@@ -72,6 +72,8 @@ public class SalesOrderServiceImpl implements SalesOrderService {
 		if (order.getPayment() != null) {
 			p = savePayment(order);
 			order.setStatus(SalesOrderStatus.CONFIRMED);
+		}else {			
+			order.setStatus(SalesOrderStatus.PENDING_CONFIRMATION);
 		}
 		Delivery d = null;
 		if (order.getDelivery() != null) {
@@ -81,7 +83,6 @@ public class SalesOrderServiceImpl implements SalesOrderService {
 		order.setConsumer(c);
 		order.setPayment(p);
 		order.setDelivery(d);
-		order.setStatus(SalesOrderStatus.PENDING_CONFIRMATION);
 
 		order = salesOrderRepository.save(order);
 
@@ -135,8 +136,11 @@ public class SalesOrderServiceImpl implements SalesOrderService {
 	public GetSalesOrderDetailsDTO cancelOrder(Long id) {
 		SalesOrder order = salesOrderRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(String.format(orderNotFound, id)));
-		order.setStatus(SalesOrderStatus.CANCELED);
-		return GetSalesOrderDetailsDTO.fromSalesOrder(salesOrderRepository.save(order));
+		if(order.getPayment() == null) {
+			order.setStatus(SalesOrderStatus.CANCELED);
+			return GetSalesOrderDetailsDTO.fromSalesOrder(salesOrderRepository.save(order));			
+		}
+		throw new SalesOrderAlreadyPaidException();
 	}
 
 	@Override

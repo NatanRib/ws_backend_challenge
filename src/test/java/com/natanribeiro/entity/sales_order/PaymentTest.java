@@ -19,13 +19,7 @@ class PaymentTest {
 		assertThrows(IllegalArgumentException.class,
 				()-> new Payment(null, null, 34.5, 2));
 	}
-	
-	@Test
-	void shouldDontCreatePaymentWithInvalidAmount() {
-		assertThrows(IllegalArgumentException.class,
-				()-> new Payment(null, "test", null, 2));
-	}
-	
+
 	@Test
 	void shouldDontCreatePaymentWithInvalidInstallments() {
 		assertThrows(IllegalArgumentException.class,

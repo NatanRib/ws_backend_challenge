@@ -1,0 +1,7 @@
+com\natanribeiro\entity\product\ProductTest.class
+com\natanribeiro\entity\sales_order\PaymentTest.class
+com\natanribeiro\entity\sales_order\OrderItemTest.class
+com\natanribeiro\entity\product\ManufacturerTest.class
+com\natanribeiro\entity\sales_order\ConsumerTest.class
+com\natanribeiro\entity\sales_order\DeliveryTest.class
+com\natanribeiro\entity\sales_order\SalesOrderTest.class
