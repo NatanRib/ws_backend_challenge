@@ -14,7 +14,7 @@ import com.natanribeiro.framework.repository.dao.ProductDAO;
 
 @Profile("dev")
 @Configuration
-public class TestConfiguration implements CommandLineRunner{
+public class DevConfiguration implements CommandLineRunner{
 
 	@Autowired
 	private ProductDAO productDao;

@@ -1,6 +1,7 @@
 package com.natanribeiro.appservice.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.natanribeiro.appservice.dto.sales_order.GetSalesOrderDTO;
 import com.natanribeiro.appservice.dto.sales_order.GetSalesOrderDetailsDTO;
@@ -10,7 +11,7 @@ import com.natanribeiro.domain.entities.sales_order.SalesOrder;
 
 public interface SalesOrderService {
 	
-	public List<GetSalesOrderDTO> find();
+	public Page<GetSalesOrderDTO> find(Pageable pageable);
 	
 	public GetSalesOrderDetailsDTO findById(Long id);
 	

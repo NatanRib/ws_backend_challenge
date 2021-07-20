@@ -1,9 +1,8 @@
 package com.natanribeiro.framework.services;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.natanribeiro.appservice.dto.product.GetProductDTO;
@@ -28,8 +27,8 @@ public class ProductServiceImpl implements ProductService {
 	String productNotFound = "Product with id %d not found.";
 
 	@Override
-	public List<GetProductDTO> findAll() {
-		return productRepository.findAll().stream().map(p -> GetProductDTO.fromProduct(p)).collect(Collectors.toList());
+	public Page<GetProductDTO> findAll(Pageable pageable) {
+		return productRepository.findAll(pageable).map(p -> GetProductDTO.fromProduct(p));
 	}
 
 	@Override
@@ -73,6 +72,15 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	private Manufacturer findOrSaveManufacturer(Manufacturer m) {
-		return manufacturerRepository.findById(m.getId()).orElse(manufacturerRepository.save(m));
+		return manufacturerRepository.findById(m.getId()).orElseGet(
+				()->{
+						if(m.getName() == null)
+							throw new IllegalArgumentException(
+									String.format("Manufacturer with id %d not founded, "
+											+ "for create a new manufacturer you need send "
+											+ "the atribute name", m.getId()));
+						return manufacturerRepository.save(m);
+					}
+				);
 	} 
 }

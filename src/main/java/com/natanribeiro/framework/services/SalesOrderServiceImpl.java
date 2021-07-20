@@ -1,11 +1,10 @@
 package com.natanribeiro.framework.services;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.natanribeiro.appservice.dto.sales_order.GetSalesOrderDTO;
@@ -53,9 +52,8 @@ public class SalesOrderServiceImpl implements SalesOrderService {
 	private String orderNotFound = "Sales order with id %d not found.";
 
 	@Override
-	public List<GetSalesOrderDTO> find() {
-		return salesOrderRepository.findAll().stream().map(o -> GetSalesOrderDTO.fromSalesOrder(o))
-				.collect(Collectors.toList());
+	public Page<GetSalesOrderDTO> find(Pageable pageable) {
+		return salesOrderRepository.findAll(pageable).map(o -> GetSalesOrderDTO.fromSalesOrder(o));
 	}
 
 	@Override

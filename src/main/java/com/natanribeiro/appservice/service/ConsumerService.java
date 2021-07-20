@@ -1,6 +1,7 @@
 package com.natanribeiro.appservice.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.natanribeiro.appservice.dto.conusmer.GetConsumerDTO;
 import com.natanribeiro.appservice.dto.conusmer.GetConsumerDetailsDTO;
@@ -8,7 +9,7 @@ import com.natanribeiro.domain.entities.sales_order.Consumer;
 
 public interface ConsumerService {
 	
-	public List<GetConsumerDTO> find();
+	public Page<GetConsumerDTO> find(Pageable pageable);
 	
 	public GetConsumerDetailsDTO findById(Long id);
 	

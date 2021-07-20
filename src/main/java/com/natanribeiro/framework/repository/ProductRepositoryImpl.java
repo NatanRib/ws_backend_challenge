@@ -1,9 +1,10 @@
 package com.natanribeiro.framework.repository;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.natanribeiro.domain.entities.product.Product;
@@ -23,8 +24,8 @@ public class ProductRepositoryImpl implements ProductRepository{
 	}
 
 	@Override
-	public List<Product> findAll() {
-		return dao.findAll();
+	public Page<Product> findAll(Pageable pageable) {
+		return dao.findAll(pageable);
 	}
 
 

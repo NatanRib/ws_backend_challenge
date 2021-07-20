@@ -1,9 +1,10 @@
 package com.natanribeiro.framework.controller;
 
 import java.net.URI;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,8 +27,8 @@ public class ConsumerController {
 	ConsumerService service;
 	
 	@GetMapping
-	public ResponseEntity<List<GetConsumerDTO>> findAll() {
-		List<GetConsumerDTO> consumers = service.find();
+	public ResponseEntity<Page<GetConsumerDTO>> findAll(Pageable pageable) {
+		Page<GetConsumerDTO> consumers = service.find(pageable);
 		return ResponseEntity.ok(consumers);
 	}
 	

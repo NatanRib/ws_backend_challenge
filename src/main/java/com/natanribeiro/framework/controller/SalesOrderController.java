@@ -1,11 +1,12 @@
 package com.natanribeiro.framework.controller;
 
 import java.net.URI;
-import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -47,8 +48,8 @@ public class SalesOrderController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<GetSalesOrderDTO>> find(){
-		List<GetSalesOrderDTO> orders = service.find();
+	public ResponseEntity<Page<GetSalesOrderDTO>> find(Pageable pageable){
+		Page<GetSalesOrderDTO> orders = service.find(pageable);
 		return ResponseEntity.ok(orders);
 	}
 	

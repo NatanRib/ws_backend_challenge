@@ -1,6 +1,7 @@
 package com.natanribeiro.appservice.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.natanribeiro.appservice.dto.product.GetProductDTO;
 import com.natanribeiro.appservice.dto.product.GetProductDetailsDTO;
@@ -9,7 +10,7 @@ import com.natanribeiro.framework.form.product.UpdateProductForm;
 
 public interface ProductService {
 	
-	public List<GetProductDTO> findAll();
+	public Page<GetProductDTO> findAll(Pageable pageable);
 	
 	public GetProductDetailsDTO findById(Long id);
 	
