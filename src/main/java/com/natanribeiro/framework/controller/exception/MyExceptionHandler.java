@@ -2,12 +2,14 @@ package com.natanribeiro.framework.controller.exception;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.natanribeiro.appservice.exceptions.RecordNotFoundException;
+import com.natanribeiro.appservice.exceptions.SalesOrderAlreadyDeliveredException;
 import com.natanribeiro.appservice.exceptions.SalesOrderAlreadyPaidException;
 import com.natanribeiro.appservice.exceptions.ValueObjectNotFoundException;
 
@@ -52,6 +54,24 @@ public class MyExceptionHandler {
 		String path = request.getRequestURI();
 		DefaultExceptionResponse response = new DefaultExceptionResponse(
 				exception.getMessage(), path);
+		return ResponseEntity.badRequest().body(response);
+	}
+	
+	@ExceptionHandler(SalesOrderAlreadyDeliveredException.class)
+	public ResponseEntity<DefaultExceptionResponse> salesOrderAlreadyDelivered(
+			SalesOrderAlreadyDeliveredException exception, HttpServletRequest request){
+		String path = request.getRequestURI();
+		DefaultExceptionResponse response = new DefaultExceptionResponse(
+				exception.getMessage(), path);
+		return ResponseEntity.badRequest().body(response);
+	}
+	
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<DefaultExceptionResponse> dataIntegrityViolation(
+			DataIntegrityViolationException exception, HttpServletRequest request){
+		String path = request.getRequestURI();
+		DefaultExceptionResponse response = new DefaultExceptionResponse(
+				exception.getLocalizedMessage(), path);
 		return ResponseEntity.badRequest().body(response);
 	}
 }
